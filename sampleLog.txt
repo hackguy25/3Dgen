@@ -1,0 +1,85 @@
+[1/1] CameraInit
+ - commandLine: aliceVision_cameraInit  --sensorDatabase "C:\Meshroom-2019.1.0\aliceVision\share\aliceVision\cameraSensors.db" --defaultFieldOfView 45.0 --groupCameraFallback folder --verboseLevel info --output "E:/Meshroom/Oaks2/MeshroomCache/CameraInit/1d9a7e6ab9e6eaf014445eace358ff49a2ab03b6/cameraInit.sfm" --allowSingleView 1  --input "E:/Meshroom/Oaks2/MeshroomCache/CameraInit/1d9a7e6ab9e6eaf014445eace358ff49a2ab03b6//viewpoints.sfm"
+ - logFile: E:/Meshroom/Oaks2/MeshroomCache/CameraInit/1d9a7e6ab9e6eaf014445eace358ff49a2ab03b6/log
+ - elapsed time: 0:00:00.190043
+Nodes to execute:  ['FeatureExtraction_1']
+
+
+[1/1] FeatureExtraction
+ - commandLine: aliceVision_featureExtraction  --input "E:/Meshroom/Oaks2/MeshroomCache/CameraInit/1d9a7e6ab9e6eaf014445eace358ff49a2ab03b6/cameraInit.sfm" --describerTypes sift --describerPreset normal --forceCpuExtraction True --verboseLevel info --output "E:/Meshroom/Oaks2/MeshroomCache/FeatureExtraction/bcf57c3b72b086c97a4014bb653074b072a41c6d" --rangeStart 0 --rangeSize 13
+ - logFile: E:/Meshroom/Oaks2/MeshroomCache/FeatureExtraction/bcf57c3b72b086c97a4014bb653074b072a41c6d/0.log
+ - elapsed time: 0:00:04.349495
+
+
+[1/1] ImageMatching
+ - commandLine: aliceVision_imageMatching  --input "E:/Meshroom/Oaks2/MeshroomCache/CameraInit/1d9a7e6ab9e6eaf014445eace358ff49a2ab03b6/cameraInit.sfm" --featuresFolders "E:/Meshroom/Oaks2/MeshroomCache/FeatureExtraction/bcf57c3b72b086c97a4014bb653074b072a41c6d" --tree "C:\Meshroom-2019.1.0\aliceVision\share\aliceVision\vlfeat_K80L3.SIFT.tree" --weights "" --minNbImages 200 --maxDescriptors 500 --nbMatches 50 --verboseLevel info --output "E:/Meshroom/Oaks2/MeshroomCache/ImageMatching/7d59555ced494eeeef85dfdbb66afb9e7395121c/imageMatches.txt"
+ - logFile: E:/Meshroom/Oaks2/MeshroomCache/ImageMatching/7d59555ced494eeeef85dfdbb66afb9e7395121c/log
+ - elapsed time: 0:00:00.312071
+
+
+[1/1] FeatureMatching
+ - commandLine: aliceVision_featureMatching  --input "E:/Meshroom/Oaks2/MeshroomCache/CameraInit/1d9a7e6ab9e6eaf014445eace358ff49a2ab03b6/cameraInit.sfm" --featuresFolders "E:/Meshroom/Oaks2/MeshroomCache/FeatureExtraction/bcf57c3b72b086c97a4014bb653074b072a41c6d" --imagePairsList "E:/Meshroom/Oaks2/MeshroomCache/ImageMatching/7d59555ced494eeeef85dfdbb66afb9e7395121c/imageMatches.txt" --describerTypes sift --photometricMatchingMethod ANN_L2 --geometricEstimator acransac --geometricFilterType fundamental_matrix --distanceRatio 0.8 --maxIteration 2048 --geometricError 0.0 --maxMatches 0 --savePutativeMatches False --guidedMatching False --exportDebugFiles False --verboseLevel info --output "E:/Meshroom/Oaks2/MeshroomCache/FeatureMatching/75405e612ecae75d2710ba807b7ea4d4ce726c19" --rangeStart 0 --rangeSize 13
+ - logFile: E:/Meshroom/Oaks2/MeshroomCache/FeatureMatching/75405e612ecae75d2710ba807b7ea4d4ce726c19/0.log
+ - elapsed time: 0:00:04.855112
+
+
+[1/1] StructureFromMotion
+ - commandLine: aliceVision_incrementalSfM  --input "E:/Meshroom/Oaks2/MeshroomCache/CameraInit/1d9a7e6ab9e6eaf014445eace358ff49a2ab03b6/cameraInit.sfm" --featuresFolders "E:/Meshroom/Oaks2/MeshroomCache/FeatureExtraction/bcf57c3b72b086c97a4014bb653074b072a41c6d" --matchesFolders "E:/Meshroom/Oaks2/MeshroomCache/FeatureMatching/75405e612ecae75d2710ba807b7ea4d4ce726c19" --describerTypes sift --localizerEstimator acransac --localizerEstimatorMaxIterations 4096 --localizerEstimatorError 0.0 --lockScenePreviouslyReconstructed False --useLocalBA True --localBAGraphDistance 1 --maxNumberOfMatches 0 --minInputTrackLength 2 --minNumberOfObservationsForTriangulation 2 --minAngleForTriangulation 3.0 --minAngleForLandmark 2.0 --maxReprojectionError 4.0 --minAngleInitialPair 5.0 --maxAngleInitialPair 40.0 --useOnlyMatchesFromInputFolder False --useRigConstraint True --lockAllIntrinsics False --initialPairA "" --initialPairB "" --interFileExtension .abc --verboseLevel info --output "E:/Meshroom/Oaks2/MeshroomCache/StructureFromMotion/531c55cac88b7c51ca61f3c2b97715fcd31786b9/sfm.abc" --outputViewsAndPoses "E:/Meshroom/Oaks2/MeshroomCache/StructureFromMotion/531c55cac88b7c51ca61f3c2b97715fcd31786b9/cameras.sfm" --extraInfoFolder "E:/Meshroom/Oaks2/MeshroomCache/StructureFromMotion/531c55cac88b7c51ca61f3c2b97715fcd31786b9"
+ - logFile: E:/Meshroom/Oaks2/MeshroomCache/StructureFromMotion/531c55cac88b7c51ca61f3c2b97715fcd31786b9/log
+ - elapsed time: 0:00:20.590133
+
+
+[1/1] PrepareDenseScene
+ - commandLine: aliceVision_prepareDenseScene  --input "E:/Meshroom/Oaks2/MeshroomCache/StructureFromMotion/531c55cac88b7c51ca61f3c2b97715fcd31786b9/sfm.abc" --outputFileType exr --saveMetadata True --saveMatricesTxtFiles False --verboseLevel info --output "E:/Meshroom/Oaks2/MeshroomCache/PrepareDenseScene/c8f3d72e5c05c8fbcf465e3befd4a31ebb15b372" --rangeStart 0 --rangeSize 13
+ - logFile: E:/Meshroom/Oaks2/MeshroomCache/PrepareDenseScene/c8f3d72e5c05c8fbcf465e3befd4a31ebb15b372/0.log
+ - elapsed time: 0:00:02.403068
+
+
+[1/1](1/4) DepthMap
+ - commandLine: aliceVision_depthMapEstimation  --input "E:/Meshroom/Oaks2/MeshroomCache/StructureFromMotion/531c55cac88b7c51ca61f3c2b97715fcd31786b9/sfm.abc" --imagesFolder "E:/Meshroom/Oaks2/MeshroomCache/PrepareDenseScene/c8f3d72e5c05c8fbcf465e3befd4a31ebb15b372" --downscale 2 --minViewAngle 2.0 --maxViewAngle 70.0 --sgmMaxTCams 10 --sgmWSH 4 --sgmGammaC 5.5 --sgmGammaP 8.0 --refineMaxTCams 6 --refineNSamplesHalf 150 --refineNDepthsToRefine 31 --refineNiters 100 --refineWSH 3 --refineSigma 15 --refineGammaC 15.5 --refineGammaP 8.0 --refineUseTcOrRcPixSize False --exportIntermediateResults False --nbGPUs 0 --verboseLevel info --output "E:/Meshroom/Oaks2/MeshroomCache/DepthMap/ef1a7c223adb006c2bdb6d6e82af1e2df36a283c" --rangeStart 0 --rangeSize 3
+ - logFile: E:/Meshroom/Oaks2/MeshroomCache/DepthMap/ef1a7c223adb006c2bdb6d6e82af1e2df36a283c/0.log
+ - elapsed time: 0:00:10.791485
+
+[1/1](2/4) DepthMap
+ - commandLine: aliceVision_depthMapEstimation  --input "E:/Meshroom/Oaks2/MeshroomCache/StructureFromMotion/531c55cac88b7c51ca61f3c2b97715fcd31786b9/sfm.abc" --imagesFolder "E:/Meshroom/Oaks2/MeshroomCache/PrepareDenseScene/c8f3d72e5c05c8fbcf465e3befd4a31ebb15b372" --downscale 2 --minViewAngle 2.0 --maxViewAngle 70.0 --sgmMaxTCams 10 --sgmWSH 4 --sgmGammaC 5.5 --sgmGammaP 8.0 --refineMaxTCams 6 --refineNSamplesHalf 150 --refineNDepthsToRefine 31 --refineNiters 100 --refineWSH 3 --refineSigma 15 --refineGammaC 15.5 --refineGammaP 8.0 --refineUseTcOrRcPixSize False --exportIntermediateResults False --nbGPUs 0 --verboseLevel info --output "E:/Meshroom/Oaks2/MeshroomCache/DepthMap/ef1a7c223adb006c2bdb6d6e82af1e2df36a283c" --rangeStart 3 --rangeSize 3
+ - logFile: E:/Meshroom/Oaks2/MeshroomCache/DepthMap/ef1a7c223adb006c2bdb6d6e82af1e2df36a283c/1.log
+ - elapsed time: 0:00:10.623438
+
+[1/1](3/4) DepthMap
+ - commandLine: aliceVision_depthMapEstimation  --input "E:/Meshroom/Oaks2/MeshroomCache/StructureFromMotion/531c55cac88b7c51ca61f3c2b97715fcd31786b9/sfm.abc" --imagesFolder "E:/Meshroom/Oaks2/MeshroomCache/PrepareDenseScene/c8f3d72e5c05c8fbcf465e3befd4a31ebb15b372" --downscale 2 --minViewAngle 2.0 --maxViewAngle 70.0 --sgmMaxTCams 10 --sgmWSH 4 --sgmGammaC 5.5 --sgmGammaP 8.0 --refineMaxTCams 6 --refineNSamplesHalf 150 --refineNDepthsToRefine 31 --refineNiters 100 --refineWSH 3 --refineSigma 15 --refineGammaC 15.5 --refineGammaP 8.0 --refineUseTcOrRcPixSize False --exportIntermediateResults False --nbGPUs 0 --verboseLevel info --output "E:/Meshroom/Oaks2/MeshroomCache/DepthMap/ef1a7c223adb006c2bdb6d6e82af1e2df36a283c" --rangeStart 6 --rangeSize 3
+ - logFile: E:/Meshroom/Oaks2/MeshroomCache/DepthMap/ef1a7c223adb006c2bdb6d6e82af1e2df36a283c/2.log
+ - elapsed time: 0:00:10.801502
+
+[1/1](4/4) DepthMap
+ - commandLine: aliceVision_depthMapEstimation  --input "E:/Meshroom/Oaks2/MeshroomCache/StructureFromMotion/531c55cac88b7c51ca61f3c2b97715fcd31786b9/sfm.abc" --imagesFolder "E:/Meshroom/Oaks2/MeshroomCache/PrepareDenseScene/c8f3d72e5c05c8fbcf465e3befd4a31ebb15b372" --downscale 2 --minViewAngle 2.0 --maxViewAngle 70.0 --sgmMaxTCams 10 --sgmWSH 4 --sgmGammaC 5.5 --sgmGammaP 8.0 --refineMaxTCams 6 --refineNSamplesHalf 150 --refineNDepthsToRefine 31 --refineNiters 100 --refineWSH 3 --refineSigma 15 --refineGammaC 15.5 --refineGammaP 8.0 --refineUseTcOrRcPixSize False --exportIntermediateResults False --nbGPUs 0 --verboseLevel info --output "E:/Meshroom/Oaks2/MeshroomCache/DepthMap/ef1a7c223adb006c2bdb6d6e82af1e2df36a283c" --rangeStart 9 --rangeSize 3
+ - logFile: E:/Meshroom/Oaks2/MeshroomCache/DepthMap/ef1a7c223adb006c2bdb6d6e82af1e2df36a283c/3.log
+ - elapsed time: 0:00:10.316905
+ 
+ 
+[1/1](1/2) DepthMapFilter
+ - commandLine: aliceVision_depthMapFiltering  --input "E:/Meshroom/Oaks2/MeshroomCache/StructureFromMotion/531c55cac88b7c51ca61f3c2b97715fcd31786b9/sfm.abc" --depthMapsFolder "E:/Meshroom/Oaks2/MeshroomCache/DepthMap/ef1a7c223adb006c2bdb6d6e82af1e2df36a283c" --minViewAngle 2.0 --maxViewAngle 70.0 --nNearestCams 10 --minNumOfConsistentCams 3 --minNumOfConsistentCamsWithLowSimilarity 4 --pixSizeBall 0 --pixSizeBallWithLowSimilarity 0 --verboseLevel info --output "E:/Meshroom/Oaks2/MeshroomCache/DepthMapFilter/7773819753163db5b5c8241ac37e3d51af5d9475" --rangeStart 0 --rangeSize 10
+ - logFile: E:/Meshroom/Oaks2/MeshroomCache/DepthMapFilter/7773819753163db5b5c8241ac37e3d51af5d9475/0.log
+ - elapsed time: 0:00:06.801756
+
+[1/1](2/2) DepthMapFilter
+ - commandLine: aliceVision_depthMapFiltering  --input "E:/Meshroom/Oaks2/MeshroomCache/StructureFromMotion/531c55cac88b7c51ca61f3c2b97715fcd31786b9/sfm.abc" --depthMapsFolder "E:/Meshroom/Oaks2/MeshroomCache/DepthMap/ef1a7c223adb006c2bdb6d6e82af1e2df36a283c" --minViewAngle 2.0 --maxViewAngle 70.0 --nNearestCams 10 --minNumOfConsistentCams 3 --minNumOfConsistentCamsWithLowSimilarity 4 --pixSizeBall 0 --pixSizeBallWithLowSimilarity 0 --verboseLevel info --output "E:/Meshroom/Oaks2/MeshroomCache/DepthMapFilter/7773819753163db5b5c8241ac37e3d51af5d9475" --rangeStart 10 --rangeSize 3
+ - logFile: E:/Meshroom/Oaks2/MeshroomCache/DepthMapFilter/7773819753163db5b5c8241ac37e3d51af5d9475/1.log
+ - elapsed time: 0:00:03.631351
+ 
+ 
+[1/1] Meshing
+ - commandLine: aliceVision_meshing  --input "E:/Meshroom/Oaks2/MeshroomCache/StructureFromMotion/531c55cac88b7c51ca61f3c2b97715fcd31786b9/sfm.abc" --depthMapsFolder "E:/Meshroom/Oaks2/MeshroomCache/DepthMap/ef1a7c223adb006c2bdb6d6e82af1e2df36a283c" --depthMapsFilterFolder "E:/Meshroom/Oaks2/MeshroomCache/DepthMapFilter/7773819753163db5b5c8241ac37e3d51af5d9475" --estimateSpaceFromSfM True --estimateSpaceMinObservations 3 --estimateSpaceMinObservationAngle 10 --maxInputPoints 50000000 --maxPoints 5000000 --maxPointsPerVoxel 1000000 --minStep 2 --partitioning singleBlock --repartition multiResolution --angleFactor 15.0 --simFactor 15.0 --pixSizeMarginInitCoef 2.0 --pixSizeMarginFinalCoef 4.0 --voteMarginFactor 4.0 --contributeMarginFactor 2.0 --simGaussianSizeInit 10.0 --simGaussianSize 10.0 --minAngleThreshold 1.0 --refineFuse True --addLandmarksToTheDensePointCloud False --verboseLevel info --output "E:/Meshroom/Oaks2/MeshroomCache/Meshing/c7268c694d7d0c2d505b412e902888fd7a23f6f4/mesh.obj"
+ - logFile: E:/Meshroom/Oaks2/MeshroomCache/Meshing/c7268c694d7d0c2d505b412e902888fd7a23f6f4/log
+ - elapsed time: 0:00:17.353822
+
+
+[1/1] MeshFiltering
+ - commandLine: aliceVision_meshFiltering  --input "E:/Meshroom/Oaks2/MeshroomCache/Meshing/c7268c694d7d0c2d505b412e902888fd7a23f6f4/mesh.obj" --removeLargeTrianglesFactor 60.0 --keepLargestMeshOnly False --iterations 5 --lambda 1.0 --verboseLevel info --output "E:/Meshroom/Oaks2/MeshroomCache/MeshFiltering/42a32ad638d5c7c3d7f2df3f31cd9b0059864651/mesh.obj"
+ - logFile: E:/Meshroom/Oaks2/MeshroomCache/MeshFiltering/42a32ad638d5c7c3d7f2df3f31cd9b0059864651/log
+ - elapsed time: 0:00:01.492845
+
+
+[1/1] Texturing
+ - commandLine: aliceVision_texturing  --input "E:/Meshroom/Oaks2/MeshroomCache/StructureFromMotion/531c55cac88b7c51ca61f3c2b97715fcd31786b9/sfm.abc" --imagesFolder "E:/Meshroom/Oaks2/MeshroomCache/PrepareDenseScene/c8f3d72e5c05c8fbcf465e3befd4a31ebb15b372" --inputDenseReconstruction "E:/Meshroom/Oaks2/MeshroomCache/Meshing/c7268c694d7d0c2d505b412e902888fd7a23f6f4/denseReconstruction.bin" --inputMesh "E:/Meshroom/Oaks2/MeshroomCache/MeshFiltering/42a32ad638d5c7c3d7f2df3f31cd9b0059864651/mesh.obj" --textureSide 8192 --downscale 2 --outputTextureFileType png --unwrapMethod Basic --fillHoles False --padding 15 --maxNbImagesForFusion 3 --bestScoreThreshold 0.0 --angleHardThreshold 90.0 --forceVisibleByAllVertices False --flipNormals False --visibilityRemappingMethod PullPush --verboseLevel info --output "E:/Meshroom/Oaks2/MeshroomCache/Texturing/4fd6cda76c4ed41755ef80cbccf32050af8eed89"
+ - logFile: E:/Meshroom/Oaks2/MeshroomCache/Texturing/4fd6cda76c4ed41755ef80cbccf32050af8eed89/log
+ - elapsed time: 0:00:11.680357
